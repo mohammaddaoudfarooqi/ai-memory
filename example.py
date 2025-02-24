@@ -75,11 +75,11 @@ asyncio.run(main())
 # Synchronous Execution (For Demonstration Only – Requires an Event Loop such as being called from a Fast API.)
 for message in messages:
     payload = {"type": message["type"], "text": message["text"]}
-    response = await ai_memory.post(f"/conversation/{USER_ID}/{CONVERSATION_ID}", data=payload)
+    response = ai_memory.post(f"/conversation/{USER_ID}/{CONVERSATION_ID}", data=payload)
     print("Add Message Response:", response)
 
 
-response = await ai_memory.get("/retrieve_memory/", {
+response = ai_memory.get("/retrieve_memory/", {
         "user_id": USER_ID,
         "text": "Recommend places to visit in India.",
     })
