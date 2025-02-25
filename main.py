@@ -160,14 +160,14 @@ def hybrid_search(query, vector_query, user_id, weight=0.5, top_n=10):
     Perform a hybrid search operation on MongoDB by combining full-text and vector (semantic) search results using an aggregation pipeline.
 
     This function executes a two-pronged search:
-    1. A full-text search on a primary collection using a text index.
-    2. A vector search on a separate collection using a precomputed embedding (vector) index.
+    1. A full-text search on the collection using a text index.
+    2. A vector search on the collection using a precomputed embedding (vector) index.
 
     Both search results are normalized, weighted, and merged to compute a final hybrid score, which is used to sort and select the top documents.
 
     Args:
         query (str): The full-text search query string to be executed against the text index.
-        vector_query (list or numpy.ndarray): The vector representation of the query used for semantic search.
+        vector_query (list): The vector representation of the query used for semantic search.
         user_id (str): The identifier of the user, used to filter search results to only include documents belonging to the specified user.
         weight (float, optional): A weight factor between 0 and 1 that determines the influence of the vector (semantic) score relative to the text search score.
                                   A value of 0 emphasizes full-text search exclusively, while 1 emphasizes vector search exclusively.
@@ -295,7 +295,7 @@ def hybrid_search(query, vector_query, user_id, weight=0.5, top_n=10):
         {"$limit": top_n},  # Limit final output
         {
             "$project": {
-                "_id": 1,  # Exclude MongoDB document ID
+                "_id": 1,  # MongoDB document ID
                 "fts_score": 1,
                 "vs_score": 1,
                 "score": "$hybrid_score",
